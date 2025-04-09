@@ -1,0 +1,70 @@
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Flashcards</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .card {
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8">AWS Flashcards</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div 
+                v-for="(card, index) in flashcards" 
+                :key="index" 
+                class="card bg-white shadow-md rounded-lg p-6 hover:shadow-xl"
+            >
+                <div class="mb-4">
+                    <h2 class="font-semibold text-lg mb-2">{{ card.question }}</h2>
+                    <p 
+                        v-if="visibleAnswers[index]" 
+                        class="text-green-700 mt-2"
+                    >
+                        {{ card.answer }}
+                    </p>
+                </div>
+                <button 
+                    @click="toggleAnswer(index)"
+                    class="mt-4 w-full px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50 transition"
+                >
+                    {{ visibleAnswers[index] ? 'Сховати відповідь' : 'Показати відповідь' }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                flashcards: [
+                    {
+                        question: "Яка модель оплати використовується в AWS?",
+                        answer: "Pay-as-you-go (оплата лише за використане)",
+                    },
+                    {
+                        question: "Назви 3 основні переваги AWS.",
+                        answer: "Масштабованість, доступність, надійність.",
+                    },
+                    // ... rest of the flashcards from the original React component
+                ],
+                visibleAnswers: {}
+            },
+            methods: {
+                toggleAnswer(index) {
+                    this.$set(this.visibleAnswers, index, !this.visibleAnswers[index]);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
